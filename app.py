@@ -743,73 +743,117 @@ elif topic == "13. Quiz & Certificate":
 # =====================================================
 # 14 INSTRUCTOR DASHBOARD
 # =====================================================
+# =====================================================
+# 14 PRACTICE + AUTO GRADING DASHBOARD
+# =====================================================
 elif topic == "14. Instructor Theory Dashboard":
 
-    st.header("Instructor Theory Dashboard")
+    st.header("Futures Practice + Auto Grading Lab")
 
-    section = st.selectbox(
-        "Select Module",
+    if "practice_score" not in st.session_state:
+        st.session_state.practice_score = 0
+    if "questions_done" not in st.session_state:
+        st.session_state.questions_done = 0
+
+    module = st.selectbox(
+        "Select Topic",
         [
-            "1. What is Futures",
-            "2. Futures Pricing",
-            "3. MTM & Margin",
-            "4. Trading P&L",
-            "5. Hedging",
-            "6. Optimal Hedge Ratio",
-            "7. Basis & Convergence",
-            "8. Basis Risk",
-            "9. Rolling Futures",
-            "10. Matching System",
-            "11. Real World Cases",
-            "12. Advanced Strategies",
-            "13. Cross Hedging",
-            "14. Strategy Comparison"
+            "Futures Payoff",
+            "Pricing",
+            "MTM",
+            "Hedging",
+            "Basis"
         ]
     )
 
-    if section == "1. What is Futures":
-        st.subheader("Futures Contract")
-        st.latex("Long = S_T - F_0")
-        st.latex("Short = F_0 - S_T")
+    # ---------------------------------------------------
+    if module == "Futures Payoff":
 
-    elif section == "2. Futures Pricing":
-        st.latex("F = S(1+r-c)^T")
-        st.latex("F = Se^{rT}")
+        st.subheader("Question 1")
+        st.write("You go LONG at 500. Expiry price = 560. Profit?")
 
-    elif section == "3. MTM & Margin":
-        st.latex("Daily P&L = (F_t - F_{t-1}) × contract size")
+        ans = st.number_input("Enter answer", key="q1")
 
-    elif section == "4. Trading P&L":
-        st.latex("Long = (S_T - F_0) × Q")
-        st.latex("Short = (F_0 - S_T) × Q")
+        if st.button("Submit Q1"):
+            st.session_state.questions_done += 1
+            if abs(ans-60) < 1:
+                st.success("Correct")
+                st.session_state.practice_score += 1
+            else:
+                st.error("Correct answer = 60")
 
-    elif section == "5. Hedging":
-        st.latex("Net P&L = Portfolio + Futures")
+    # ---------------------------------------------------
+    elif module == "Pricing":
 
-    elif section == "6. Optimal Hedge Ratio":
-        st.latex("N = \\frac{\\beta V}{FQ}")
+        st.subheader("Question 2")
+        st.write("Spot=200, r=10%, T=1. Futures price?")
 
-    elif section == "7. Basis & Convergence":
-        st.latex("Basis = S - F")
-        st.latex("F_T = S_T")
+        ans = st.number_input("Enter futures price", key="q2")
 
-    elif section == "8. Basis Risk":
-        st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
+        if st.button("Submit Q2"):
+            st.session_state.questions_done += 1
+            if abs(ans-220) < 1:
+                st.success("Correct")
+                st.session_state.practice_score += 1
+            else:
+                st.error("Correct answer = 220")
 
-    elif section == "9. Rolling Futures":
-        st.latex("Roll cost = F_{next} - F_{near}")
+    # ---------------------------------------------------
+    elif module == "MTM":
 
-    elif section == "10. Matching System":
-        st.write("Orders match via order book")
+        st.subheader("Question 3")
+        st.write("Buy at 100. Next day 120. MTM gain?")
 
-    elif section == "11. Real World Cases":
-        st.write("Equity hedge, commodity hedge, currency hedge")
+        ans = st.number_input("Enter MTM", key="q3")
 
-    elif section == "12. Advanced Strategies":
-        st.write("Calendar spread, arbitrage, directional trade")
+        if st.button("Submit Q3"):
+            st.session_state.questions_done += 1
+            if abs(ans-20) < 1:
+                st.success("Correct")
+                st.session_state.practice_score += 1
+            else:
+                st.error("Correct answer = 20")
 
-    elif section == "13. Cross Hedging":
-        st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
+    # ---------------------------------------------------
+    elif module == "Hedging":
 
-    elif section == "14. Strategy Comparison":
-        st.write("Compare payoff slopes and risk")
+        st.subheader("Question 4")
+        st.write("Portfolio loss 10,000. Futures gain 8,000. Net?")
+
+        ans = st.number_input("Enter net P&L", key="q4")
+
+        if st.button("Submit Q4"):
+            st.session_state.questions_done += 1
+            if abs(ans+2000) < 1:
+                st.success("Correct")
+                st.session_state.practice_score += 1
+            else:
+                st.error("Correct answer = -2000")
+
+    # ---------------------------------------------------
+    elif module == "Basis":
+
+        st.subheader("Question 5")
+        st.write("Spot=500, futures=520. Basis?")
+
+        ans = st.number_input("Enter basis", key="q5")
+
+        if st.button("Submit Q5"):
+            st.session_state.questions_done += 1
+            if abs(ans+20) < 1:
+                st.success("Correct")
+                st.session_state.practice_score += 1
+            else:
+                st.error("Correct answer = -20")
+
+    # ---------------------------------------------------
+    st.divider()
+    st.subheader("Practice Score")
+
+    st.metric("Score", st.session_state.practice_score)
+    st.metric("Questions Attempted", st.session_state.questions_done)
+
+    if st.button("Reset Practice"):
+        st.session_state.practice_score = 0
+        st.session_state.questions_done = 0
+        st.success("Reset complete")
