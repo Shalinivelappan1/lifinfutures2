@@ -737,13 +737,14 @@ elif topic == "13. Quiz & Certificate":
 
             c.save()
             buffer.seek(0)
-
-                        st.download_button(
+          st.download_button(
                 "📄 Download Certificate",
                 buffer,
                 file_name=f"{student_id}_certificate.pdf",
                 mime="application/pdf"
             )
+
+        
 
 # =====================================================
 # 14 INSTRUCTOR DASHBOARD
