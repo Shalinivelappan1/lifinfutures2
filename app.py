@@ -965,8 +965,4 @@ elif topic == "14. Instructor Theory Dashboard":
     if st.button("Reset Score"):
         st.session_state.practice_score = 0
         st.success("Reset complete")
- 
-""")
 
-    st.divider()
-    st.metric("Practice Score", st.session_state.practice_score)
