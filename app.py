@@ -743,7 +743,6 @@ elif topic == "13. Quiz & Certificate":
 # =====================================================
 # 14 INSTRUCTOR DASHBOARD
 # =====================================================
-# =====================================================
 # 14 INSTRUCTOR + THEORY + PRACTICE + AUTO SCORE
 # =====================================================
 elif topic == "14. Instructor Theory Dashboard":
@@ -879,6 +878,3 @@ Short is opposite.
     if st.button("Reset Score"):
         st.session_state.practice_score = 0
         st.success("Score reset")
-
-
-              
