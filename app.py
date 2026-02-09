@@ -743,64 +743,70 @@ elif topic == "13. Quiz & Certificate":
 # =====================================================
 # 14 INSTRUCTOR DASHBOARD
 # =====================================================
-# 14 FULL THEORY + PRACTICE + AUTO SCORE (ALL MODULES)
+# 14 MASTER THEORY + SOLVED NUMERICALS + PRACTICE
 # =====================================================
 elif topic == "14. Instructor Theory Dashboard":
 
-    st.header("Futures Master Teaching Dashboard")
+    st.header("Futures Master Teaching Dashboard (With Solved Examples)")
 
     if "practice_score" not in st.session_state:
         st.session_state.practice_score = 0
 
     module = st.selectbox(
-        "Select Module",
+        "Select Topic",
         [
             "1. Futures Basics",
             "2. Futures Pricing",
             "3. MTM & Margins",
             "4. Trading P&L",
             "5. Hedging",
-            "6. Optimal Hedge Ratio",
-            "7. Basis & Convergence",
-            "8. Basis Risk",
-            "9. Rolling Futures",
-            "10. Matching System",
-            "11. Real World Cases",
-            "12. Advanced Strategies",
-            "13. Cross Hedging",
-            "14. Strategy Comparison"
+            "6. Optimal Hedge Ratio (Beta)",
+            "7. Basis & Convergence"
         ]
     )
 
     # =====================================================
     if module == "1. Futures Basics":
 
-        st.subheader("Concept")
-        st.write("Futures lock price today for future trade.")
-
+        st.subheader("Formula")
         st.latex("Long = S_T - F_0")
-        st.latex("Short = F_0 - S_T")
 
-        st.subheader("Example")
-        st.write("Buy at 200, expiry 240 → gain 40")
+        st.subheader("Solved Example")
+        st.write("""
+Buy Nifty futures at 20,000  
+Expiry price = 20,800  
+""")
 
-        st.subheader("Practice")
-        ans = st.number_input("Long at 500, expiry 550 profit?")
+        st.latex("Profit = 20,800 - 20,000 = 800")
+
+        st.subheader("Interpretation")
+        st.write("Long gains when price rises.")
+
+        ans = st.number_input("Practice: Long at 500, expiry 560 profit?")
         if st.button("Check1"):
-            if abs(ans-50)<1:
+            if abs(ans-60)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Answer = 50")
+                st.error("Answer = 60")
 
     # =====================================================
     elif module == "2. Futures Pricing":
 
         st.latex("F = S(1+r)^T")
 
-        st.write("Spot=100, r=10% → F=110")
+        st.subheader("Solved Example")
+        st.write("""
+Spot = 100  
+r = 10%  
+T = 1  
+""")
 
-        ans = st.number_input("Spot 200 r5% → futures?")
+        st.latex("F = 100(1.10) = 110")
+
+        st.write("Futures should trade at 110.")
+
+        ans = st.number_input("Practice: Spot 200, r=5% futures?")
         if st.button("Check2"):
             if abs(ans-210)<1:
                 st.success("Correct")
@@ -813,60 +819,16 @@ elif topic == "14. Instructor Theory Dashboard":
 
         st.latex("MTM = F_t - F_{t-1}")
 
-        ans = st.number_input("Buy 100 → 120 MTM?")
+        st.subheader("Solved Example")
+        st.write("""
+Day1 price = 200  
+Day2 price = 215  
+""")
+
+        st.latex("Gain = 15 per unit")
+
+        ans = st.number_input("Practice: 300 → 280 MTM?")
         if st.button("Check3"):
-            if abs(ans-20)<1:
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = 20")
-
-    # =====================================================
-    elif module == "4. Trading P&L":
-
-        st.latex("Long = (S_T - F_0)Q")
-
-        ans = st.number_input("Short 400 expiry 350 profit?")
-        if st.button("Check4"):
-            if abs(ans-50)<1:
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = 50")
-
-    # =====================================================
-    elif module == "5. Hedging":
-
-        st.write("Hedging offsets risk")
-
-        ans = st.number_input("Loss 10k gain 9k net?")
-        if st.button("Check5"):
-            if abs(ans+1000)<1:
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = -1000")
-
-    # =====================================================
-    elif module == "6. Optimal Hedge Ratio":
-
-        st.latex("N = V/(FQ)")
-
-        ans = st.number_input("Portfolio 10L F=20k lot50 contracts?")
-        if st.button("Check6"):
-            if abs(ans-10)<1:
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer ≈ 10")
-
-    # =====================================================
-    elif module == "7. Basis & Convergence":
-
-        st.latex("Basis = S - F")
-
-        ans = st.number_input("Spot500 futures520 basis?")
-        if st.button("Check7"):
             if abs(ans+20)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
@@ -874,90 +836,108 @@ elif topic == "14. Instructor Theory Dashboard":
                 st.error("Answer = -20")
 
     # =====================================================
-    elif module == "8. Basis Risk":
+    elif module == "4. Trading P&L":
 
-        st.write("Imperfect hedge due to correlation")
+        st.latex("P&L = (S_T - F_0) × Q")
 
-        ans = st.radio("High correlation hedge?",["Good","Bad"])
-        if st.button("Check8"):
-            if ans=="Good":
+        st.subheader("Solved Example")
+        st.write("""
+Short at 500  
+Expiry 450  
+Lot = 1  
+""")
+
+        st.latex("Profit = 500 - 450 = 50")
+
+        ans = st.number_input("Practice: Short 800 expiry 760 profit?")
+        if st.button("Check4"):
+            if abs(ans-40)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Answer = Good")
+                st.error("Answer = 40")
 
     # =====================================================
-    elif module == "9. Rolling Futures":
+    elif module == "5. Hedging":
 
-        st.write("Close near, open next")
+        st.subheader("Formula")
+        st.latex("Net = Portfolio + Futures")
 
-        ans = st.radio("Why roll?",["Extend hedge","Stop trading"])
-        if st.button("Check9"):
-            if ans=="Extend hedge":
+        st.subheader("Solved Example")
+        st.write("""
+Portfolio loss = 10,000  
+Futures gain = 9,200  
+""")
+
+        st.latex("Net loss = 800")
+
+        ans = st.number_input("Practice: Loss 7000 gain 6500 net?")
+        if st.button("Check5"):
+            if abs(ans+500)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Answer = Extend hedge")
+                st.error("Answer = -500")
 
     # =====================================================
-    elif module == "10. Matching System":
+    elif module == "6. Optimal Hedge Ratio (Beta)":
 
-        ans = st.radio("Exchange matches?",["Buyers & sellers","Banks only"])
-        if st.button("Check10"):
-            if ans=="Buyers & sellers":
+        st.latex(r"N = \frac{\beta V}{FQ}")
+
+        st.subheader("Solved Example")
+        st.write("""
+Portfolio = ₹20,00,000  
+Beta = 1.2  
+Futures = 20,000  
+Lot = 50  
+""")
+
+        st.latex(r"N = \frac{1.2 \times 20,00,000}{20,000 \times 50}")
+        st.write("N = 24 contracts")
+
+        beta = st.number_input("Beta", value=1.0)
+        V = st.number_input("Portfolio value", value=1000000)
+        F = st.number_input("Futures price", value=20000)
+        Q = st.number_input("Lot size", value=50)
+
+        user = st.number_input("Contracts?")
+
+        if st.button("Check6"):
+            correct = (beta*V)/(F*Q)
+            if abs(user-correct)<0.5:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Answer = Buyers & sellers")
+                st.error(f"Correct ≈ {round(correct,2)}")
 
     # =====================================================
-    elif module == "11. Real World Cases":
+    elif module == "7. Basis & Convergence":
 
-        ans = st.radio("Airline hedges?",["Fuel price","Interest"])
-        if st.button("Check11"):
-            if ans=="Fuel price":
+        st.latex("Basis = Spot - Futures")
+
+        st.subheader("Solved Example")
+        st.write("""
+Spot = 520  
+Futures = 540  
+""")
+
+        st.latex("Basis = -20")
+
+        st.write("At expiry → basis becomes 0.")
+
+        ans = st.number_input("Practice: Spot 600 futures 590 basis?")
+        if st.button("Check7"):
+            if abs(ans-10)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Answer = Fuel price")
+                st.error("Answer = 10")
 
     # =====================================================
-    elif module == "12. Advanced Strategies":
-
-        ans = st.radio("Calendar spread uses?",["Two expiries","Two stocks"])
-        if st.button("Check12"):
-            if ans=="Two expiries":
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = Two expiries")
-
-    # =====================================================
-    elif module == "13. Cross Hedging":
-
-        ans = st.radio("Cross hedge when?",["No exact contract","Always"])
-        if st.button("Check13"):
-            if ans=="No exact contract":
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = No exact contract")
-
-    # =====================================================
-    elif module == "14. Strategy Comparison":
-
-        ans = st.radio("Hedging reduces?",["Risk","Return"])
-        if st.button("Check14"):
-            if ans=="Risk":
-                st.success("Correct")
-                st.session_state.practice_score += 1
-            else:
-                st.error("Answer = Risk")
-
     st.divider()
     st.subheader("Total Practice Score")
     st.metric("Score", st.session_state.practice_score)
 
-    if st.button("Reset All Practice"):
+    if st.button("Reset Score"):
         st.session_state.practice_score = 0
         st.success("Reset complete")
