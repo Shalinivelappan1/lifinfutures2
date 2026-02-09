@@ -744,116 +744,141 @@ elif topic == "13. Quiz & Certificate":
 # 14 INSTRUCTOR DASHBOARD
 # =====================================================
 # =====================================================
-# 14 PRACTICE + AUTO GRADING DASHBOARD
+# 14 INSTRUCTOR + THEORY + PRACTICE + AUTO SCORE
 # =====================================================
 elif topic == "14. Instructor Theory Dashboard":
 
-    st.header("Futures Practice + Auto Grading Lab")
+    st.header("Futures Teaching + Practice Dashboard")
 
     if "practice_score" not in st.session_state:
         st.session_state.practice_score = 0
-    if "questions_done" not in st.session_state:
-        st.session_state.questions_done = 0
 
-    module = st.selectbox(
-        "Select Topic",
+    topic_select = st.selectbox(
+        "Choose Topic",
         [
             "Futures Payoff",
-            "Pricing",
+            "Futures Pricing",
             "MTM",
             "Hedging",
-            "Basis"
+            "Basis & Convergence"
         ]
     )
 
-    # ---------------------------------------------------
-    if module == "Futures Payoff":
+    # =====================================================
+    if topic_select == "Futures Payoff":
 
-        st.subheader("Question 1")
-        st.write("You go LONG at 500. Expiry price = 560. Profit?")
+        st.subheader("Concept")
+        st.write("Futures payoff is linear and symmetric.")
 
-        ans = st.number_input("Enter answer", key="q1")
+        st.latex("Long = S_T - F_0")
+        st.latex("Short = F_0 - S_T")
 
-        if st.button("Submit Q1"):
-            st.session_state.questions_done += 1
-            if abs(ans-60) < 1:
+        st.subheader("Explanation")
+        st.write("""
+If you buy futures and price rises → profit  
+If price falls → loss  
+Short is opposite.
+""")
+
+        st.subheader("Solved Example")
+        st.write("Buy at 500, expiry 560 → profit = 60")
+
+        st.subheader("Practice")
+        ans = st.number_input("Long at 400, expiry 450 → profit?")
+        if st.button("Check Payoff"):
+            if abs(ans-50)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Correct answer = 60")
+                st.error("Answer = 50")
 
-    # ---------------------------------------------------
-    elif module == "Pricing":
+    # =====================================================
+    elif topic_select == "Futures Pricing":
 
-        st.subheader("Question 2")
-        st.write("Spot=200, r=10%, T=1. Futures price?")
+        st.subheader("Concept")
+        st.write("Futures price = spot + cost of carry")
 
-        ans = st.number_input("Enter futures price", key="q2")
+        st.latex("F = S(1+r)^T")
 
-        if st.button("Submit Q2"):
-            st.session_state.questions_done += 1
-            if abs(ans-220) < 1:
+        st.subheader("Example")
+        st.write("Spot=100, r=10% → F=110")
+
+        st.subheader("Practice")
+        ans = st.number_input("Spot=200, r=5% → Futures?")
+        if st.button("Check Pricing"):
+            if abs(ans-210)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Correct answer = 220")
+                st.error("Answer = 210")
 
-    # ---------------------------------------------------
-    elif module == "MTM":
+    # =====================================================
+    elif topic_select == "MTM":
 
-        st.subheader("Question 3")
-        st.write("Buy at 100. Next day 120. MTM gain?")
+        st.subheader("Concept")
+        st.write("Mark-to-market settles daily profit/loss")
 
-        ans = st.number_input("Enter MTM", key="q3")
+        st.latex("MTM = F_t - F_{t-1}")
 
-        if st.button("Submit Q3"):
-            st.session_state.questions_done += 1
-            if abs(ans-20) < 1:
+        st.subheader("Example")
+        st.write("Buy at 100, next day 120 → gain 20")
+
+        st.subheader("Practice")
+        ans = st.number_input("Buy 300, next day 280 → MTM?")
+        if st.button("Check MTM"):
+            if abs(ans+20)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Correct answer = 20")
+                st.error("Answer = -20")
 
-    # ---------------------------------------------------
-    elif module == "Hedging":
+    # =====================================================
+    elif topic_select == "Hedging":
 
-        st.subheader("Question 4")
-        st.write("Portfolio loss 10,000. Futures gain 8,000. Net?")
+        st.subheader("Concept")
+        st.write("Hedging offsets portfolio risk")
 
-        ans = st.number_input("Enter net P&L", key="q4")
+        st.latex("Net P&L = Portfolio + Futures")
 
-        if st.button("Submit Q4"):
-            st.session_state.questions_done += 1
-            if abs(ans+2000) < 1:
+        st.subheader("Example")
+        st.write("Portfolio loss 10k, futures gain 9k → net -1k")
+
+        st.subheader("Practice")
+        ans = st.number_input("Loss 8000, futures gain 7000 → net?")
+        if st.button("Check Hedge"):
+            if abs(ans+1000)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Correct answer = -2000")
+                st.error("Answer = -1000")
 
-    # ---------------------------------------------------
-    elif module == "Basis":
+    # =====================================================
+    elif topic_select == "Basis & Convergence":
 
-        st.subheader("Question 5")
-        st.write("Spot=500, futures=520. Basis?")
+        st.subheader("Concept")
+        st.write("Basis = Spot − Futures")
 
-        ans = st.number_input("Enter basis", key="q5")
+        st.latex("Basis = S - F")
 
-        if st.button("Submit Q5"):
-            st.session_state.questions_done += 1
-            if abs(ans+20) < 1:
+        st.write("At expiry → basis = 0")
+
+        st.subheader("Practice")
+        ans = st.number_input("Spot=500, futures=520 → basis?")
+        if st.button("Check Basis"):
+            if abs(ans+20)<1:
                 st.success("Correct")
                 st.session_state.practice_score += 1
             else:
-                st.error("Correct answer = -20")
+                st.error("Answer = -20")
 
-    # ---------------------------------------------------
+    # =====================================================
     st.divider()
     st.subheader("Practice Score")
-
     st.metric("Score", st.session_state.practice_score)
-    st.metric("Questions Attempted", st.session_state.questions_done)
 
-    if st.button("Reset Practice"):
+    if st.button("Reset Score"):
         st.session_state.practice_score = 0
-        st.session_state.questions_done = 0
-        st.success("Reset complete")
+        st.success("Score reset")
+
+
+              
