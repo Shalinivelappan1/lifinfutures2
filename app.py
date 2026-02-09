@@ -246,21 +246,75 @@ elif topic == "6. Optimal Hedge Ratio":
 # =====================================================
 elif topic == "7. Basis & Convergence":
 
-    st.header("Basis & Convergence")
+    st.header("Basis & Convergence at Expiry")
 
-    spot=st.number_input("Spot",22000)
-    futures=st.number_input("Futures",22100)
+    spot = st.number_input("Current Spot Price", 22000)
+    futures = st.number_input("Current Futures Price", 22150)
 
-    basis=spot-futures
-    st.metric("Basis",basis)
+    basis = spot - futures
+    st.metric("Current Basis (S − F)", basis)
 
-    days=np.arange(0,10)
-    basis_path=np.linspace(basis,0,10)
+    st.subheader("Market Structure")
+    market_type = st.radio(
+        "Structure",
+        ["Contango (F > S)", "Backwardation (F < S)"]
+    )
+
+    days = st.slider("Days to expiry", 5, 60, 30)
+
+    # simulate convergence
+    time = np.arange(days)
+
+    if market_type == "Contango (F > S)":
+        basis_path = np.linspace(basis, 0, days)
+    else:
+        basis_path = np.linspace(basis, 0, days)
 
     fig, ax = plt.subplots()
-    ax.plot(days,basis_path)
-    ax.set_title("Convergence to zero")
+    ax.plot(time, basis_path)
+    ax.set_title("Basis Converges to Zero at Expiry")
+    ax.set_xlabel("Days")
+    ax.set_ylabel("Basis")
     st.pyplot(fig)
+
+    st.subheader("Impact on Hedged Portfolio")
+
+    V = st.number_input("Portfolio value", 5_000_000)
+    beta = st.slider("Beta", 0.5, 1.5, 1.0)
+    size = 50
+
+    contracts = (beta * V) / (futures * size)
+
+    moves = np.linspace(-0.05, 0.05, 10)
+
+    portfolio = V * beta * moves
+    futures_pnl = -contracts * size * futures * moves
+
+    net = portfolio + futures_pnl
+
+    fig2, ax2 = plt.subplots()
+    ax2.plot(moves*100, portfolio, label="Unhedged")
+    ax2.plot(moves*100, net, label="Hedged")
+    ax2.legend()
+    ax2.set_title("Effect of Convergence on Hedge")
+    st.pyplot(fig2)
+
+    df = pd.DataFrame({
+        "Market Move %": moves*100,
+        "Unhedged": portfolio,
+        "Hedged": net
+    })
+    st.dataframe(df, use_container_width=True)
+
+    st.info("""
+Key teaching points:
+
+• Basis = Spot − Futures  
+• Basis → 0 at expiry  
+• Hedge effectiveness improves as expiry nears  
+• Imperfect convergence creates basis risk  
+""")
+
 
 # =====================================================
 # 8 BASIS RISK
