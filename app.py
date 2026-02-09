@@ -631,7 +631,7 @@ elif topic == "12. Advanced Strategies":
             "Calendar": calendar
         })
         st.dataframe(df)
-# =====================================================
+# # =====================================================
 # 13 QUIZ & CERTIFICATE
 # =====================================================
 elif topic == "13. Quiz & Certificate":
@@ -643,7 +643,6 @@ elif topic == "13. Quiz & Certificate":
 
     st.header("Futures Lab Quiz")
 
-    # ---------------- QUESTIONS ----------------
     q1 = st.radio("1. Market falls → who gains?", ["Long","Short"])
     q2 = st.radio("2. Basis at expiry becomes?", ["Zero","Large"])
     q3 = st.number_input("3. Spot=100, r=10%. Futures?")
@@ -659,7 +658,6 @@ elif topic == "13. Quiz & Certificate":
     student_name = st.text_input("Student Name")
     student_id = st.text_input("Student ID")
 
-    # ---------------- SUBMIT ----------------
     if st.button("Submit Quiz"):
 
         score = 0
@@ -676,9 +674,6 @@ elif topic == "13. Quiz & Certificate":
 
         st.success(f"Score: {score}/10")
 
-        # ===============================
-        # EXCEL DOWNLOAD
-        # ===============================
         df = pd.DataFrame({
             "Student Name":[student_name]*10,
             "Student ID":[student_id]*10,
@@ -737,14 +732,13 @@ elif topic == "13. Quiz & Certificate":
 
             c.save()
             buffer.seek(0)
-          st.download_button(
+
+            st.download_button(
                 "📄 Download Certificate",
                 buffer,
                 file_name=f"{student_id}_certificate.pdf",
                 mime="application/pdf"
             )
-
-        
 
 # =====================================================
 # 14 INSTRUCTOR DASHBOARD
@@ -752,7 +746,6 @@ elif topic == "13. Quiz & Certificate":
 elif topic == "14. Instructor Theory Dashboard":
 
     st.header("Instructor Theory Dashboard")
-    st.write("Detailed theory, formulas, and teaching explanations")
 
     section = st.selectbox(
         "Select Module",
@@ -774,94 +767,49 @@ elif topic == "14. Instructor Theory Dashboard":
         ]
     )
 
-    # -------------------------------------------------
     if section == "1. What is Futures":
         st.subheader("Futures Contract")
-
-        st.markdown("""
-A futures contract is a standardized agreement to buy or sell an asset at a predetermined price on a future date.
-""")
-
         st.latex("Long = S_T - F_0")
         st.latex("Short = F_0 - S_T")
 
-    # -------------------------------------------------
     elif section == "2. Futures Pricing":
-        st.subheader("Pricing")
-
         st.latex("F = S(1+r-c)^T")
         st.latex("F = Se^{rT}")
 
-    # -------------------------------------------------
     elif section == "3. MTM & Margin":
-        st.subheader("Mark-to-Market")
-
         st.latex("Daily P&L = (F_t - F_{t-1}) × contract size")
 
-    # -------------------------------------------------
     elif section == "4. Trading P&L":
-        st.subheader("Trading P&L")
-
         st.latex("Long = (S_T - F_0) × Q")
         st.latex("Short = (F_0 - S_T) × Q")
 
-    # -------------------------------------------------
     elif section == "5. Hedging":
-        st.subheader("Hedging")
-
         st.latex("Net P&L = Portfolio + Futures")
 
-    # -------------------------------------------------
     elif section == "6. Optimal Hedge Ratio":
-        st.subheader("Optimal Hedge Ratio")
-
         st.latex("N = \\frac{\\beta V}{FQ}")
 
-    # -------------------------------------------------
     elif section == "7. Basis & Convergence":
-        st.subheader("Basis")
-
         st.latex("Basis = S - F")
         st.latex("F_T = S_T")
 
-    # -------------------------------------------------
     elif section == "8. Basis Risk":
-        st.subheader("Basis Risk")
-
         st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
 
-    # -------------------------------------------------
     elif section == "9. Rolling Futures":
-        st.subheader("Rolling")
-
         st.latex("Roll cost = F_{next} - F_{near}")
 
-    # -------------------------------------------------
     elif section == "10. Matching System":
-        st.subheader("Exchange Matching")
-
         st.write("Orders match via order book")
 
-    # -------------------------------------------------
     elif section == "11. Real World Cases":
-        st.subheader("Applications")
-
         st.write("Equity hedge, commodity hedge, currency hedge")
 
-    # -------------------------------------------------
     elif section == "12. Advanced Strategies":
-        st.subheader("Strategies")
-
         st.write("Calendar spread, arbitrage, directional trade")
 
-    # -------------------------------------------------
     elif section == "13. Cross Hedging":
-        st.subheader("Cross Hedge")
-
         st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
 
-    # -------------------------------------------------
     elif section == "14. Strategy Comparison":
-        st.subheader("Compare Strategies")
-
         st.write("Compare payoff slopes and risk")
