@@ -168,31 +168,64 @@ elif topic == "4. Trading P&L":
 # =====================================================
 elif topic == "5. Hedging Strategy Builder":
 
-    st.header("Hedging Builder")
+    st.header("Hedging Strategy Builder (Realistic)")
 
-    V=st.number_input("Portfolio",5_000_000)
-    beta=st.slider("Beta",0.5,1.5,1.0)
-    contracts=st.slider("Futures contracts",0,100,20)
-    F=st.number_input("Futures price",22000)
+    V = st.number_input("Portfolio value", 5_000_000)
+    beta = st.slider("Portfolio beta", 0.5, 1.5, 1.0)
+    F = st.number_input("Futures price", 22000)
+    size = 50
 
-    moves=np.linspace(-0.1,0.1,8)
+    # Optimal hedge
+    optimal_contracts = (beta * V) / (F * size)
 
-    portfolio=V*beta*moves
-    futures=-contracts*50*F*moves
-    net=portfolio+futures
+    st.metric("Optimal contracts", round(optimal_contracts,2))
 
+    hedge_type = st.radio(
+        "Hedge type",
+        ["Optimal Hedge", "Under Hedge", "Over Hedge"]
+    )
+
+    if hedge_type == "Optimal Hedge":
+        contracts = optimal_contracts
+    elif hedge_type == "Under Hedge":
+        contracts = optimal_contracts * 0.5
+    else:
+        contracts = optimal_contracts * 1.5
+
+    st.write(f"Using contracts: {round(contracts,2)}")
+
+    # market moves
+    moves = np.linspace(-0.1, 0.1, 20)
+
+    portfolio = V * beta * moves
+    futures = -contracts * size * F * moves
+    net = portfolio + futures
+
+    # chart
     fig, ax = plt.subplots()
-    ax.plot(moves*100,portfolio,label="Unhedged")
-    ax.plot(moves*100,net,label="Hedged")
+    ax.plot(moves*100, portfolio, label="Unhedged")
+    ax.plot(moves*100, net, label="Hedged")
+    ax.axhline(0)
+    ax.set_xlabel("Market move %")
+    ax.set_ylabel("P&L")
     ax.legend()
     st.pyplot(fig)
 
-    df=pd.DataFrame({
-        "Move%":moves*100,
-        "Unhedged":portfolio,
-        "Hedged":net
+    # payoff table
+    df = pd.DataFrame({
+        "Market move %": moves*100,
+        "Unhedged P&L": portfolio,
+        "Futures P&L": futures,
+        "Net hedged P&L": net
     })
-    st.dataframe(df)
+    st.dataframe(df, use_container_width=True)
+
+    st.info("""
+Optimal hedge → flattest line  
+Under hedge → still risky  
+Over hedge → reverses exposure  
+At expiry → futures & spot converge
+""")
 
 # =====================================================
 # 6 OPTIMAL HEDGE
