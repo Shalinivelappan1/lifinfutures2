@@ -738,13 +738,17 @@ elif topic == "13. Quiz & Certificate":
             c.save()
             buffer.seek(0)
 
-            st.download_button(
+                        st.download_button(
                 "📄 Download Certificate",
                 buffer,
                 file_name=f"{student_id}_certificate.pdf",
                 mime="application/pdf"
             )
-            elif topic == "14. Instructor Theory Dashboard":
+
+# =====================================================
+# 14 INSTRUCTOR DASHBOARD
+# =====================================================
+elif topic == "14. Instructor Theory Dashboard":
 
     st.header("Instructor Theory Dashboard")
     st.write("Detailed theory, formulas, and teaching explanations")
@@ -769,7 +773,7 @@ elif topic == "13. Quiz & Certificate":
         ]
     )
 
-    # =====================================================
+    # -------------------------------------------------
     if section == "1. What is Futures":
         st.subheader("Futures Contract")
 
@@ -777,181 +781,86 @@ elif topic == "13. Quiz & Certificate":
 A futures contract is a standardized agreement to buy or sell an asset at a predetermined price on a future date.
 """)
 
-        st.markdown("""
-**Key components**
-- Underlying asset  
-- Contract size  
-- Expiry  
-- Margin  
-- Mark-to-market  
-""")
-
-        st.markdown("""
-**Payoff formulas**
-""")
-
         st.latex("Long = S_T - F_0")
         st.latex("Short = F_0 - S_T")
 
-        st.markdown("""
-**Teaching explanation**
-Futures shift price risk. Hedgers reduce risk, speculators take risk, arbitrageurs enforce pricing.
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "2. Futures Pricing":
         st.subheader("Pricing")
 
         st.latex("F = S(1+r-c)^T")
         st.latex("F = Se^{rT}")
 
-        st.markdown("""
-**Where**
-S = spot  
-r = interest  
-c = carry cost  
-T = time  
-""")
-
-        st.markdown("""
-If futures > fair → sell futures  
-If futures < fair → buy futures  
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "3. MTM & Margin":
         st.subheader("Mark-to-Market")
 
-        st.markdown("""
-Daily settlement of gains and losses.
-""")
-
         st.latex("Daily P&L = (F_t - F_{t-1}) × contract size")
 
-        st.markdown("""
-Initial margin = deposit  
-Maintenance margin = minimum balance  
-Margin call occurs when balance < maintenance.
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "4. Trading P&L":
         st.subheader("Trading P&L")
 
         st.latex("Long = (S_T - F_0) × Q")
         st.latex("Short = (F_0 - S_T) × Q")
 
-        st.markdown("""
-Slope of payoff line = exposure.
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "5. Hedging":
         st.subheader("Hedging")
 
-        st.markdown("""
-Hedging reduces variance, not returns.
-""")
-
         st.latex("Net P&L = Portfolio + Futures")
 
-        st.markdown("""
-Over hedge → negative slope  
-Under hedge → residual risk  
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "6. Optimal Hedge Ratio":
         st.subheader("Optimal Hedge Ratio")
 
         st.latex("N = \\frac{\\beta V}{FQ}")
 
-        st.markdown("""
-N = number of contracts  
-V = portfolio value  
-F = futures price  
-Q = contract size  
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "7. Basis & Convergence":
         st.subheader("Basis")
 
         st.latex("Basis = S - F")
-
-        st.markdown("""
-At expiry:
-""")
-
         st.latex("F_T = S_T")
 
-        st.markdown("""
-So basis → 0.
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "8. Basis Risk":
         st.subheader("Basis Risk")
 
-        st.markdown("""
-Imperfect correlation between hedge and exposure.
-""")
-
         st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
 
-    # =====================================================
+    # -------------------------------------------------
     elif section == "9. Rolling Futures":
         st.subheader("Rolling")
 
-        st.markdown("""
-Close near contract → open next contract.
-""")
-
         st.latex("Roll cost = F_{next} - F_{near}")
 
-    # =====================================================
+    # -------------------------------------------------
     elif section == "10. Matching System":
         st.subheader("Exchange Matching")
 
-        st.markdown("""
-Orders match via order book.
-""")
+        st.write("Orders match via order book")
 
-    # =====================================================
+    # -------------------------------------------------
     elif section == "11. Real World Cases":
         st.subheader("Applications")
 
-        st.markdown("""
-Equity hedge  
-Commodity hedge  
-Currency hedge  
-""")
+        st.write("Equity hedge, commodity hedge, currency hedge")
 
-    # =====================================================
+    # -------------------------------------------------
     elif section == "12. Advanced Strategies":
         st.subheader("Strategies")
 
-        st.markdown("""
-Calendar spread  
-Arbitrage  
-Directional trade  
-""")
+        st.write("Calendar spread, arbitrage, directional trade")
 
-    # =====================================================
+    # -------------------------------------------------
     elif section == "13. Cross Hedging":
         st.subheader("Cross Hedge")
 
         st.latex("h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}")
 
-        st.markdown("""
-Used when exact contract unavailable.
-""")
-
-    # =====================================================
+    # -------------------------------------------------
     elif section == "14. Strategy Comparison":
         st.subheader("Compare Strategies")
 
-        st.markdown("""
-Compare payoff slopes and risk.
-""")
-
+        st.write("Compare payoff slopes and risk")
